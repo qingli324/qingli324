@@ -20,6 +20,7 @@ public class BbsCommentOfCom {
 
     private String replyname;
 
+
     public Long getId() {
         return id;
     }
