@@ -1,5 +1,7 @@
 package app.controller;
 
+import app.Model.BbsComOfComResult;
+import app.Model.CommonResult;
 import app.entity.BbsComment;
 import app.entity.BbsCommentOfCom;
 import app.service.BbsCommentOfComService;
@@ -21,8 +23,18 @@ public class BbsCommentOfComController {
     private BbsCommentOfComService bbsCommentOfComService;
 
     @RequestMapping(value = "/comofcom",method = RequestMethod.GET)
-    public List<BbsCommentOfCom> getAllCommentsOfComByCommentId(@RequestParam(value="commentid")Long commentid){
+    public List<BbsComOfComResult> getAllCommentsOfComByCommentId(@RequestParam(value="commentid")Long commentid){
         return bbsCommentOfComService.getAllCommentsOfComByCommentId(commentid);
+    }
+    @RequestMapping(value = "/deletecomofcom",method = RequestMethod.GET)
+    public CommonResult deleteBbsCommentById(@RequestParam(value="id")Long id,@RequestParam(value="commentid")Long commentid){
+        return bbsCommentOfComService.deleteBbsComOfComById(id,commentid);
+    }
+    @RequestMapping(value = "/insertcomofcom",method = RequestMethod.POST)
+    public CommonResult insertBbsComOfCom(@RequestParam(value="content")String content,@RequestParam(value = "username")String username,
+                                          @RequestParam(value = "userhead")String userhead,@RequestParam(value = "commentid")Long commentid,
+                                          @RequestParam(value = "replyname")String replyname){
+        return bbsCommentOfComService.insertBbsComOfCom(content,username,userhead,commentid,replyname);
     }
 
 }

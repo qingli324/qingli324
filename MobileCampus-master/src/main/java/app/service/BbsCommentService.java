@@ -5,13 +5,10 @@ import app.Model.CommonResult;
 import app.entity.BbsComment;
 import app.mapper.BbsCommentMapper;
 
-//import net.sf.json.JSONArray;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import app.utils.TimeShowUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,14 +20,28 @@ public class BbsCommentService {
     @Autowired
     private BbsCommentMapper bbsCommentMapper;
 
-    public List<BbsComment> getBbsCommentsByTitleImgId(Long topicid){
-        List<BbsComment> lists = bbsCommentMapper.getAllCommentsBytitleImgId(topicid);
+    public List<BbsCommentResult> getBbsCommentsByTitleImgId(Long topicid){
+        List<BbsCommentResult> lists = new ArrayList<BbsCommentResult>();
+        BbsCommentResult e = null;
+        TimeShowUtil timeShowUtil = new TimeShowUtil();
+        List<BbsComment> results = bbsCommentMapper.getAllCommentsBytitleImgId(topicid);
+        for(BbsComment result : results){
+                String time = null;
+                e = new BbsCommentResult();
+                e.setBbsComment(result);
+                time = timeShowUtil.getTimePoint(result.getCommenttime().getTime());
+                e.setTime(time);
+                lists.add(e);
+        }
        return lists;
+    }
+    public CommonResult deleteBbsCommentById(long id){
+            bbsCommentMapper.deleteBbsCommentById(id);
+            return new CommonResult(200,"BBS评论删除成功",null);
     }
 
     public CommonResult insertBbsComment(String content,String username,String userhead,
                                          Long topicid,String imgsurl){
-
         if ((content == null||"".equals(content))&&
                 (imgsurl == null || "".equals(imgsurl))){
             return new CommonResult(500,"评论或评论图片不能同时为空",null);
@@ -42,18 +53,33 @@ public class BbsCommentService {
                 bbsComment.setContent(content);
                 bbsComment.setImgsurl(imgsurl);
                 Date date = new Date();
-                long  seconds = date.getTime();
-                //2、装箱： 将获得原始的毫秒数据，按照java.sql.Date形式组装
-                java.sql.Date sqlDate = new java.sql.Date(seconds);
-                bbsComment.setCommenttime(sqlDate);
+                bbsComment.setCommenttime(date);
                 bbsCommentMapper.insertBbsComment(bbsComment);
-
                 return new CommonResult(200,"BBS评论成功",null);
-
         }
 
     }
 
+    //点赞数加一
+    public CommonResult updateLikenumAdd(long id){
+        try{
+            bbsCommentMapper.updateLikenumAdd(id);
+            return new CommonResult(200,"点赞成功",null);
+        }catch (Exception e){
+            return new CommonResult(500,"点赞失败",null);
+        }
 
+    }
+
+    //点赞数减一
+    public CommonResult updateLikenumReduce(long id){
+        try{
+            bbsCommentMapper.updateLikenumReduce(id);
+            return new CommonResult(200,"取消点赞成功",null);
+        }catch (Exception e){
+            return new CommonResult(500,"取消点赞失败",null);
+        }
+
+    }
 
 }

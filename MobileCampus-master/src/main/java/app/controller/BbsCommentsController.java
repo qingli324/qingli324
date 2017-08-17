@@ -1,6 +1,7 @@
 package app.controller;
 
 
+import app.Model.BbsCommentResult;
 import app.Model.CommonResult;
 import app.Model.PictureResult;
 import app.entity.BbsComment;
@@ -32,10 +33,11 @@ public class BbsCommentsController {
     private PictureService pictureService;
     @Autowired
     private BbsCommentService bbsCommentService;
+
     @RequestMapping(value = "/comments", method = RequestMethod.GET)
-    public List<BbsComment> getBbsCommentsByTitleImgId(@RequestParam(value="id" ,required = false, defaultValue = "1") Long topicid ){
-        List<BbsComment> list =  bbsCommentService.getBbsCommentsByTitleImgId(topicid);
-        return list;
+    public List<BbsCommentResult> getBbsCommentsByTitleImgId(@RequestParam(value="id" ,required = false, defaultValue = "1") Long topicid ){
+        List<BbsCommentResult> lists =  bbsCommentService.getBbsCommentsByTitleImgId(topicid);
+        return lists;
     }
     @RequestMapping(value = "/insertcomment", method = RequestMethod.POST)
     public CommonResult insertBbsComment(@RequestParam(value="content")String content,@RequestParam(value = "username")String username,
@@ -47,7 +49,23 @@ public class BbsCommentsController {
     @RequestMapping(value = "/picsupload", method = RequestMethod.POST)
     public PictureResult uploadBbsCommentPics(@RequestParam("uploadFile") MultipartFile[] pics){
         return bbsCommentPicturesService.uploadPicture(pics);
-
     }
+    @RequestMapping(value = "/deletecommentbyid", method = RequestMethod.GET)
+    public CommonResult deleteCommentById(@RequestParam(value = "id")long id){
+        return bbsCommentService.deleteBbsCommentById(id);
+    }
+
+    //点赞数加一
+    @RequestMapping(value = "/likenumadd", method = RequestMethod.GET)
+    public CommonResult updateLikenumAdd(@RequestParam(value = "id")long id){
+        return bbsCommentService.updateLikenumAdd(id);
+    }
+
+    //点赞数减一
+    @RequestMapping(value = "/likenumreduce", method = RequestMethod.GET)
+    public CommonResult updateLikenumReduce(@RequestParam(value = "id")long id){
+        return bbsCommentService.updateLikenumReduce(id);
+    }
+
 }
 

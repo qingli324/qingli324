@@ -1,5 +1,7 @@
 package app.Model;
 
+import app.entity.BbsComment;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * Created by 青离 on 2017/6/14.
  */
 public class BbsCommentResult {
-    private Integer id;
+    /*private Long id;
 
     private Integer commentnum;
 
@@ -19,16 +21,17 @@ public class BbsCommentResult {
 
     private String username;
 
-    private Integer titleimgid;
+    private Long topicid;
 
     private Integer likenum;
-    private String imgurl;
 
-    public Integer getId() {
+    private String imgsurl;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,7 +48,7 @@ public class BbsCommentResult {
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = content == null ? null : content.trim();
     }
 
     public Date getCommenttime() {
@@ -61,7 +64,7 @@ public class BbsCommentResult {
     }
 
     public void setUserhead(String userhead) {
-        this.userhead = userhead;
+        this.userhead = userhead == null ? null : userhead.trim();
     }
 
     public String getUsername() {
@@ -69,15 +72,15 @@ public class BbsCommentResult {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username == null ? null : username.trim();
     }
 
-    public Integer getTitleimgid() {
-        return titleimgid;
+    public Long getTopicid() {
+        return topicid;
     }
 
-    public void setTitleimgid(Integer titleimgid) {
-        this.titleimgid = titleimgid;
+    public void setTopicid(Long topicid) {
+        this.topicid = topicid;
     }
 
     public Integer getLikenum() {
@@ -88,11 +91,30 @@ public class BbsCommentResult {
         this.likenum = likenum;
     }
 
-    public String getImgurl() {
-        return imgurl;
+    public String getImgsurl() {
+        return imgsurl;
     }
 
-    public void setImgurl(String  imgurl) {
-        this.imgurl = imgurl;
+    public void setImgsurl(String imgsurl) {
+        this.imgsurl = imgsurl == null ? null : imgsurl.trim();
+    }
+*/
+    private BbsComment bbsComment;
+    private String time;
+
+    public BbsComment getBbsComment() {
+       return bbsComment;
+   }
+
+    public void setBbsComment(BbsComment bbsComment) {
+        this.bbsComment = bbsComment;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
